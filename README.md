@@ -4,7 +4,7 @@ An easy-to-run Python prototype of a ticket-booking workflow with structured log
 
 This is a **fresh reference implementation**, not recovered internship source code or Ticmint production software. It uses synthetic events only. No company document, certificate, personal details, payment data or real customer traffic is included.
 
-![Dashboard from an actual local run](evidence/dashboard.png)
+![Dashboard from an actual local run](https://github.com/user-attachments/assets/c3777f99-bdc4-46ae-9b53-6d1d9a0c9b1b)
 
 ## Quick start
 
@@ -65,8 +65,8 @@ Evidence files:
 - `evidence/test-results.txt`: captured unittest output.
 - `evidence/demo-responses.json`: actual request results.
 - `evidence/observability.json`: correlated traces, logs and alert from demo.py.
-- `evidence/dashboard.png`, `trace-explorer.png`, `security-alert.png`, `json-logs.png`: screenshots from the running browser application.
-- `evidence/mobile-dashboard.png`: 390px viewport capture.
+- `evidence/screenshots.md`: GitHub-hosted dashboard, trace and security screenshots from the running browser application.
+- The companion source ZIP also includes JSON-log and 390px mobile captures.
 - `evidence/ui-results.json`: completed browser checks, no JavaScript errors and no mobile horizontal overflow.
 
 The browser screenshots were captured after real booking/alert actions, not copied from the supplied PDF. The UI structure and theme are recreated; it is not a pixel-for-pixel copy. Unimplemented payment/authentication services and the PDF's static volumes are deliberately not presented as live features.
