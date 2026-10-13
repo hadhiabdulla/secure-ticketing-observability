@@ -1,0 +1,23 @@
+{
+  "malformed": {
+    "requests": 7,
+    "errors": 6,
+    "alerts": [
+      "repeated_booking_failures",
+      "malformed_input"
+    ]
+  },
+  "browse": "Customer browsing finished. Three read requests, no seats booked.\nObserved change: +3 requests, +0 errors, +0 bookings, +0 new alerts.",
+  "checkout": "One real booking confirmed. The seat is now sold.\nObserved change: +2 requests, +0 errors, +1 bookings, +0 new alerts.",
+  "rush": "1 winner, 7 conflicts. A legitimate rush can raise security signals too.\nObserved change: +9 requests, +7 errors, +1 bookings, +1 new alerts.",
+  "failures": "Three EVENT_NOT_FOUND failures. The repeated-failure HIGH rule applies; deduplicated if already raised this minute.\nObserved change: +3 requests, +3 errors, +0 bookings, +0 new alerts.",
+  "burst": "Twelve real rapid requests. MEDIUM request_burst rule applies; invalid seats also contribute to repeated failures.\nObserved change: +12 requests, +12 errors, +0 bookings, +0 new alerts.",
+  "duplicate": "Second checkout returned 409 SEAT_UNAVAILABLE. Inventory prevents double booking.\nObserved change: +3 requests, +1 errors, +1 bookings, +0 new alerts.",
+  "multiseat": "4/4 distinct seats confirmed. Real concurrent traffic without a same-seat race.\nObserved change: +5 requests, +0 errors, +4 bookings, +0 new alerts.",
+  "invalidseat": "Three SEAT_NOT_FOUND responses. The repeated-failure rule applies, with inventory.reserve error spans.\nObserved change: +3 requests, +3 errors, +0 bookings, +0 new alerts.",
+  "auto_refresh": true,
+  "client_mobile_overflow": false,
+  "dashboard_mobile_overflow": false,
+  "normal_booking": "confirmed",
+  "errors": []
+}
