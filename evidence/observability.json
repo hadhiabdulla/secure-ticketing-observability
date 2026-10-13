@@ -1,0 +1,311 @@
+{
+  "requests": 7,
+  "errors": 3,
+  "bookings": 2,
+  "p95_ms": 0.1,
+  "alerts": [
+    {
+      "alert_id": "e673f535-a60b-41e1-893b-7baffff03e98",
+      "severity": "HIGH",
+      "rule": "repeated_booking_failures",
+      "source_key": "c70d1320de01baa658bb2e99",
+      "failure_count": 3,
+      "window_seconds": 60,
+      "trace_id": "f340ca2652e52b9f5ead629195df9103",
+      "timestamp": "2026-10-13T16:42:52.075352+00:00",
+      "message": "Three or more booking failures in 60s. Investigate; this is not proof of an attack."
+    }
+  ],
+  "traces": [
+    {
+      "trace_id": "b5a64847bbde50877b9aae8e412d735c",
+      "operation": "events.list",
+      "partner_id": "partner-demo",
+      "region": "local",
+      "timestamp": "2026-10-13T16:42:52.072017+00:00",
+      "spans": [
+        {
+          "span_id": "0a8e36d86f7910c7",
+          "parent_span_id": null,
+          "name": "events.list",
+          "status": "ok",
+          "duration_ms": 0.014
+        }
+      ],
+      "status": "ok"
+    },
+    {
+      "trace_id": "08547ff3a28e42778149a62bc7984962",
+      "operation": "seats.list",
+      "partner_id": "partner-demo",
+      "region": "local",
+      "timestamp": "2026-10-13T16:42:52.072729+00:00",
+      "spans": [
+        {
+          "span_id": "5c6b38f1d9fed4e9",
+          "parent_span_id": "e4cebee164392684",
+          "name": "inventory.lookup",
+          "status": "ok",
+          "duration_ms": 0.01
+        },
+        {
+          "span_id": "e4cebee164392684",
+          "parent_span_id": null,
+          "name": "seats.list",
+          "status": "ok",
+          "duration_ms": 0.023
+        }
+      ],
+      "status": "ok"
+    },
+    {
+      "trace_id": "a08c66fb00fa0e43505e08ac49a0af51",
+      "operation": "booking.submit",
+      "partner_id": "partner-demo",
+      "region": "local",
+      "timestamp": "2026-10-13T16:42:52.073276+00:00",
+      "spans": [
+        {
+          "span_id": "1d1c35263ea36cfc",
+          "parent_span_id": "3833db4dfd4b13fa",
+          "name": "inventory.reserve",
+          "status": "ok",
+          "duration_ms": 0.029
+        },
+        {
+          "span_id": "9f3b005754929874",
+          "parent_span_id": "3833db4dfd4b13fa",
+          "name": "booking.persist",
+          "status": "ok",
+          "duration_ms": 0.008
+        },
+        {
+          "span_id": "3833db4dfd4b13fa",
+          "parent_span_id": null,
+          "name": "booking.submit",
+          "status": "ok",
+          "duration_ms": 0.1
+        }
+      ],
+      "status": "ok"
+    },
+    {
+      "trace_id": "dbf477adb62bd1f323f8ecdc4b7dd8fb",
+      "operation": "booking.submit",
+      "partner_id": "partner-demo",
+      "region": "local",
+      "timestamp": "2026-10-13T16:42:52.073781+00:00",
+      "spans": [
+        {
+          "span_id": "b6c8db2c49d94d94",
+          "parent_span_id": "ea4c7dc5c47bb984",
+          "name": "inventory.reserve",
+          "status": "ok",
+          "duration_ms": 0.018
+        },
+        {
+          "span_id": "a421474ddeda1798",
+          "parent_span_id": "ea4c7dc5c47bb984",
+          "name": "booking.persist",
+          "status": "ok",
+          "duration_ms": 0.007
+        },
+        {
+          "span_id": "ea4c7dc5c47bb984",
+          "parent_span_id": null,
+          "name": "booking.submit",
+          "status": "ok",
+          "duration_ms": 0.051
+        }
+      ],
+      "status": "ok"
+    },
+    {
+      "trace_id": "a2241f9de4a1897afcccd7745e54dbfd",
+      "operation": "booking.submit",
+      "partner_id": "partner-demo",
+      "region": "local",
+      "timestamp": "2026-10-13T16:42:52.074264+00:00",
+      "spans": [
+        {
+          "span_id": "83adcc2f20f3df75",
+          "parent_span_id": "add959af28b997d0",
+          "name": "inventory.reserve",
+          "status": "error",
+          "error_code": "SEAT_UNAVAILABLE",
+          "duration_ms": 0.005
+        },
+        {
+          "span_id": "add959af28b997d0",
+          "parent_span_id": null,
+          "name": "booking.submit",
+          "status": "error",
+          "error_code": "SEAT_UNAVAILABLE",
+          "duration_ms": 0.043
+        }
+      ],
+      "status": "error"
+    },
+    {
+      "trace_id": "064ca4770fd33636e48a4bd11b717e6f",
+      "operation": "booking.submit",
+      "partner_id": "partner-demo",
+      "region": "local",
+      "timestamp": "2026-10-13T16:42:52.074668+00:00",
+      "spans": [
+        {
+          "span_id": "9f1eb7cda766ca4a",
+          "parent_span_id": "39a9892f7ecd6153",
+          "name": "inventory.reserve",
+          "status": "error",
+          "error_code": "EVENT_NOT_FOUND",
+          "duration_ms": 0.003
+        },
+        {
+          "span_id": "39a9892f7ecd6153",
+          "parent_span_id": null,
+          "name": "booking.submit",
+          "status": "error",
+          "error_code": "EVENT_NOT_FOUND",
+          "duration_ms": 0.094
+        }
+      ],
+      "status": "error"
+    },
+    {
+      "trace_id": "f340ca2652e52b9f5ead629195df9103",
+      "operation": "booking.submit",
+      "partner_id": "partner-demo",
+      "region": "local",
+      "timestamp": "2026-10-13T16:42:52.075276+00:00",
+      "spans": [
+        {
+          "span_id": "db0c2d9ad011d72a",
+          "parent_span_id": "39580753921fa361",
+          "name": "inventory.reserve",
+          "status": "error",
+          "error_code": "SEAT_NOT_FOUND",
+          "duration_ms": 0.005
+        },
+        {
+          "span_id": "39580753921fa361",
+          "parent_span_id": null,
+          "name": "booking.submit",
+          "status": "error",
+          "error_code": "SEAT_NOT_FOUND",
+          "duration_ms": 0.067
+        }
+      ],
+      "status": "error"
+    }
+  ],
+  "logs": [
+    {
+      "timestamp": "2026-10-13T16:42:52.072057+00:00",
+      "level": "INFO",
+      "service": "booking-demo",
+      "region": "local",
+      "partner_id": "partner-demo",
+      "trace_id": "b5a64847bbde50877b9aae8e412d735c",
+      "span_id": "0a8e36d86f7910c7",
+      "message": "Events listed"
+    },
+    {
+      "timestamp": "2026-10-13T16:42:52.072748+00:00",
+      "level": "INFO",
+      "service": "booking-demo",
+      "region": "local",
+      "partner_id": "partner-demo",
+      "trace_id": "08547ff3a28e42778149a62bc7984962",
+      "span_id": "5c6b38f1d9fed4e9",
+      "message": "Seat map loaded",
+      "event_id": "event-001"
+    },
+    {
+      "timestamp": "2026-10-13T16:42:52.073363+00:00",
+      "level": "INFO",
+      "service": "booking-demo",
+      "region": "local",
+      "partner_id": "partner-demo",
+      "trace_id": "a08c66fb00fa0e43505e08ac49a0af51",
+      "span_id": "1d1c35263ea36cfc",
+      "message": "Seat reserved",
+      "event_id": "event-001",
+      "seat": "A1"
+    },
+    {
+      "timestamp": "2026-10-13T16:42:52.073379+00:00",
+      "level": "INFO",
+      "service": "booking-demo",
+      "region": "local",
+      "partner_id": "partner-demo",
+      "trace_id": "a08c66fb00fa0e43505e08ac49a0af51",
+      "span_id": "9f3b005754929874",
+      "message": "Booking confirmed",
+      "booking_id": "bc8ceee8-f54b-4bfd-9f83-0c536f8e5628",
+      "event_id": "event-001",
+      "seat": "A1"
+    },
+    {
+      "timestamp": "2026-10-13T16:42:52.073819+00:00",
+      "level": "INFO",
+      "service": "booking-demo",
+      "region": "local",
+      "partner_id": "partner-demo",
+      "trace_id": "dbf477adb62bd1f323f8ecdc4b7dd8fb",
+      "span_id": "b6c8db2c49d94d94",
+      "message": "Seat reserved",
+      "event_id": "event-001",
+      "seat": "A2"
+    },
+    {
+      "timestamp": "2026-10-13T16:42:52.073834+00:00",
+      "level": "INFO",
+      "service": "booking-demo",
+      "region": "local",
+      "partner_id": "partner-demo",
+      "trace_id": "dbf477adb62bd1f323f8ecdc4b7dd8fb",
+      "span_id": "a421474ddeda1798",
+      "message": "Booking confirmed",
+      "booking_id": "25a5668d-bd1d-4075-8130-49cffaa5664f",
+      "event_id": "event-001",
+      "seat": "A2"
+    },
+    {
+      "timestamp": "2026-10-13T16:42:52.074304+00:00",
+      "level": "WARN",
+      "service": "booking-demo",
+      "region": "local",
+      "partner_id": "partner-demo",
+      "trace_id": "a2241f9de4a1897afcccd7745e54dbfd",
+      "span_id": "add959af28b997d0",
+      "message": "Booking failed",
+      "error_code": "SEAT_UNAVAILABLE",
+      "source_key": "c70d1320de01baa658bb2e99"
+    },
+    {
+      "timestamp": "2026-10-13T16:42:52.074761+00:00",
+      "level": "WARN",
+      "service": "booking-demo",
+      "region": "local",
+      "partner_id": "partner-demo",
+      "trace_id": "064ca4770fd33636e48a4bd11b717e6f",
+      "span_id": "39a9892f7ecd6153",
+      "message": "Booking failed",
+      "error_code": "EVENT_NOT_FOUND",
+      "source_key": "c70d1320de01baa658bb2e99"
+    },
+    {
+      "timestamp": "2026-10-13T16:42:52.075328+00:00",
+      "level": "WARN",
+      "service": "booking-demo",
+      "region": "local",
+      "partner_id": "partner-demo",
+      "trace_id": "f340ca2652e52b9f5ead629195df9103",
+      "span_id": "39580753921fa361",
+      "message": "Booking failed",
+      "error_code": "SEAT_NOT_FOUND",
+      "source_key": "c70d1320de01baa658bb2e99"
+    }
+  ]
+}
