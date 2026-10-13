@@ -11,9 +11,21 @@ class ProjectTests(unittest.TestCase):
         self.system=Ticketing();self.client=create_app(self.system).test_client()
     def book(self,event='event-001',seat='A1'):
         return self.client.post('/api/bookings',json={'event_id':event,'seat':seat})
-    def test_event_discovery(self):self.assertEqual(len(self.client.get('/api/events').json['events']),2)
-    def test_seat_selection(self):self.assertEqual(len(self.client.get('/api/events/event-001/seats').json['seats']),12)
-    def test_successful_booking(self):self.assertEqual(self.book().status_code,201)
+    def test_event_discovery(self):self.assertEqual(len(self.client.get('/api/events').json['events']),6)
+    def test_event_metadata(self):
+        for event in self.client.get('/api/events').json['events']:
+            self.assertIsInstance(event['price'],int);self.assertGreater(event['price'],0)
+            self.assertTrue(event['category']);self.assertTrue(event['venue']);self.assertTrue(event['date'])
+    def test_seat_selection(self):self.assertEqual(len(self.client.get('/api/events/event-001/seats').json['seats']),50)
+    def test_booking_site_page(self):
+        body=self.client.get('/').get_data(as_text=True)
+        self.assertIn('ticmint',body);self.assertNotIn('prototype',body.lower())
+    def test_dashboard_page(self):
+        response=self.client.get('/dashboard');body=response.get_data(as_text=True)
+        self.assertEqual(response.status_code,200);self.assertIn('Observability',body)
+    def test_successful_booking(self):
+        response=self.book();self.assertEqual(response.status_code,201)
+        self.assertEqual(response.json['booking']['price'],1499)
     def test_booked_seat_unavailable(self):
         self.book();self.assertEqual(self.book().json['error'],'SEAT_UNAVAILABLE')
     def test_invalid_event(self):self.assertEqual(self.book('bad').status_code,404)
@@ -31,9 +43,16 @@ class ProjectTests(unittest.TestCase):
         for _ in range(3):self.book('bad')
         self.assertEqual(self.system.alerts[0]['severity'],'HIGH')
         self.assertIn(self.system.alerts[0]['trace_id'],[t['trace_id'] for t in self.system.traces])
+    def test_burst_alert(self):
+        for i in range(8):
+            try:
+                with self.system.request('booking.submit') as trace:self.system.book(trace,'event-001',f'Z{i+1}')
+            except BookingError:pass
+        rules={(a['rule'],a['severity']) for a in self.system.alerts}
+        self.assertIn(('request_burst','MEDIUM'),rules)
     def test_alert_deduplication(self):
         for _ in range(7):self.book('bad')
-        self.assertEqual(len(self.system.alerts),1)
+        self.assertEqual(len([a for a in self.system.alerts if a['rule']=='repeated_booking_failures']),1)
     def test_failure_window_expires(self):
         time=[0];system=Ticketing(clock=lambda:time[0])
         for tick in [0,61,122]:
