@@ -1,10 +1,14 @@
 test_alert_deduplication (test_project.ProjectTests) ... ok
 test_booked_seat_unavailable (test_project.ProjectTests) ... ok
+test_booking_site_page (test_project.ProjectTests) ... ok
+test_burst_alert (test_project.ProjectTests) ... ok
 test_concurrent_seat_reservation (test_project.ProjectTests) ... ok
 test_cross_origin_blocked (test_project.ProjectTests) ... ok
+test_dashboard_page (test_project.ProjectTests) ... ok
 test_data_minimization (test_project.ProjectTests) ... ok
 test_distinct_sources_not_combined (test_project.ProjectTests) ... ok
 test_event_discovery (test_project.ProjectTests) ... ok
+test_event_metadata (test_project.ProjectTests) ... ok
 test_failure_window_expires (test_project.ProjectTests) ... ok
 test_health_summary (test_project.ProjectTests) ... ok
 test_high_alert (test_project.ProjectTests) ... ok
@@ -20,6 +24,6 @@ test_trace_log_correlation (test_project.ProjectTests) ... ok
 test_trace_missing (test_project.ProjectTests) ... ok
 
 ----------------------------------------------------------------------
-Ran 20 tests in 0.074s
+Ran 24 tests in 0.085s
 
 OK
