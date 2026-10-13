@@ -1,8 +1,12 @@
-# Repeated booking failures
+# Booking security signals
 
-## Signal
+## Signals
 
-HIGH: at least three booking failures from the same pseudonymous actor/source key within 60 seconds. One alert per source key per 60-second cooldown. A demo button deliberately triggers this rule. Alerts indicate a pattern requiring review, not a confirmed attacker.
+HIGH (repeated_booking_failures): at least three booking failures from the same pseudonymous source key within 60 seconds.
+
+MEDIUM (request_burst): eight or more booking attempts from the same pseudonymous source key within 10 seconds, a scalper-bot pattern.
+
+Both deduplicate per source key per 60-second cooldown. Scenario buttons deliberately trigger each rule. Alerts indicate a pattern requiring review, not a confirmed attacker.
 
 ## Investigate
 
@@ -11,7 +15,7 @@ HIGH: at least three booking failures from the same pseudonymous actor/source ke
 3. Read correlated logs for EVENT_NOT_FOUND, SEAT_NOT_FOUND or SEAT_UNAVAILABLE.
 4. Search the source pseudonym in Logs to compare the nearby pattern.
 5. Determine whether this was the demo button, ordinary retries or a suspicious sequence.
-6. Record your findings. Do not auto-block based on this prototype's rule.
+6. Record your findings. Do not auto-block based on these demo rules.
 
 ## Recovery and limitations
 
