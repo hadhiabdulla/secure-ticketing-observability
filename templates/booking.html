@@ -1,0 +1,38 @@
+<!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ticmint - book live events</title><link rel="stylesheet" href="/static/style.css"><script src="/static/theme.js" defer></script><script src="/static/booking.js" defer></script></head><body class="booking-body">
+<header class="site-header">
+  <a class="brand" href="/">ticmint</a>
+  <nav class="site-nav"><a href="/" class="active">Events</a><a href="/dashboard">Observability dashboard</a></nav>
+  <button id="theme-toggle" class="theme-toggle" type="button">Dark</button>
+</header>
+<div id="home-view">
+  <section class="hero">
+    <h1>Find your next live experience</h1>
+    <p>Concerts, tech summits, comedy, sport and film. Real-time seat availability, instant confirmation.</p>
+    <input id="search" type="search" placeholder="Search events, venues, cities" aria-label="Search events">
+    <div id="chips" class="chips"></div>
+  </section>
+  <main class="event-grid" id="event-grid"></main>
+</div>
+<section id="event-view" hidden>
+  <button id="back" class="link-button" type="button">&larr; All events</button>
+  <div class="event-detail">
+    <div class="seat-area">
+      <h2 id="ev-title"></h2>
+      <p id="ev-meta" class="muted"></p>
+      <div class="stage">STAGE</div>
+      <div id="seat-map" class="seat-map"></div>
+      <div class="legend"><span><i class="box"></i> Available</span><span><i class="box chosen"></i> Selected</span><span><i class="box sold"></i> Sold</span></div>
+    </div>
+    <aside class="order-panel">
+      <h3>Order summary</h3>
+      <p id="ord-event" class="muted"></p>
+      <div id="ord-seats"><p class="muted">No seats selected yet.</p></div>
+      <div class="ord-total"><span>Total</span><strong id="ord-total">&#8377;0</strong></div>
+      <button id="confirm" type="button" disabled>Confirm booking</button>
+      <p id="ord-result" role="status"></p>
+      <p class="fine">Demo checkout: no payment is taken and no personal details are collected.</p>
+    </aside>
+  </div>
+</section>
+<footer class="site-footer">ticmint <span id="foot-note">Local demo build. Bookings, seats and prices are sample data held on this machine only.</span></footer>
+</body></html>
