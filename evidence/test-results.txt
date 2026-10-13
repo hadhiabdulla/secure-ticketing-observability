@@ -1,6 +1,10 @@
 test_alert_deduplication (test_project.ProjectTests) ... ok
 test_booked_seat_unavailable (test_project.ProjectTests) ... ok
 test_booking_site_page (test_project.ProjectTests) ... ok
+test_brand_logo_on_both_pages (test_project.ProjectTests) ... /tmp/ticketing/tests/test_project.py:31: ResourceWarning: unclosed file <_io.BufferedReader name='/tmp/ticketing/static/ticmint-logo.png'>
+  self.assertEqual(self.client.get('/static/ticmint-logo.png').status_code,200)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
 test_burst_alert (test_project.ProjectTests) ... ok
 test_concurrent_seat_reservation (test_project.ProjectTests) ... ok
 test_cross_origin_blocked (test_project.ProjectTests) ... ok
@@ -9,6 +13,7 @@ test_data_minimization (test_project.ProjectTests) ... ok
 test_distinct_sources_not_combined (test_project.ProjectTests) ... ok
 test_event_discovery (test_project.ProjectTests) ... ok
 test_event_metadata (test_project.ProjectTests) ... ok
+test_event_photo_wiring (test_project.ProjectTests) ... ok
 test_failure_window_expires (test_project.ProjectTests) ... ok
 test_health_summary (test_project.ProjectTests) ... ok
 test_high_alert (test_project.ProjectTests) ... ok
@@ -16,14 +21,42 @@ test_invalid_event (test_project.ProjectTests) ... ok
 test_invalid_input (test_project.ProjectTests) ... ok
 test_invalid_seat (test_project.ProjectTests) ... ok
 test_json_persistence (test_project.ProjectTests) ... ok
+test_local_event_photos (test_project.ProjectTests) ... ok
+test_local_sidebar_icons (test_project.ProjectTests) ... /tmp/ticketing/tests/test_project.py:36: ResourceWarning: unclosed file <_io.BufferedReader name='/tmp/ticketing/static/icons/home.svg'>
+  self.assertEqual(self.client.get('/static/icons/'+icon+'.svg').status_code,200)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/ticketing/tests/test_project.py:36: ResourceWarning: unclosed file <_io.BufferedReader name='/tmp/ticketing/static/icons/logs.svg'>
+  self.assertEqual(self.client.get('/static/icons/'+icon+'.svg').status_code,200)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/ticketing/tests/test_project.py:36: ResourceWarning: unclosed file <_io.BufferedReader name='/tmp/ticketing/static/icons/traces.svg'>
+  self.assertEqual(self.client.get('/static/icons/'+icon+'.svg').status_code,200)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/ticketing/tests/test_project.py:36: ResourceWarning: unclosed file <_io.BufferedReader name='/tmp/ticketing/static/icons/metrics.svg'>
+  self.assertEqual(self.client.get('/static/icons/'+icon+'.svg').status_code,200)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/ticketing/tests/test_project.py:36: ResourceWarning: unclosed file <_io.BufferedReader name='/tmp/ticketing/static/icons/security.svg'>
+  self.assertEqual(self.client.get('/static/icons/'+icon+'.svg').status_code,200)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/ticketing/tests/test_project.py:36: ResourceWarning: unclosed file <_io.BufferedReader name='/tmp/ticketing/static/icons/services.svg'>
+  self.assertEqual(self.client.get('/static/icons/'+icon+'.svg').status_code,200)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
 test_nested_spans (test_project.ProjectTests) ... ok
 test_seat_selection (test_project.ProjectTests) ... ok
 test_security_headers (test_project.ProjectTests) ... ok
 test_successful_booking (test_project.ProjectTests) ... ok
 test_trace_log_correlation (test_project.ProjectTests) ... ok
 test_trace_missing (test_project.ProjectTests) ... ok
+test_attempts_not_double_counted (test_project.ValidationAndScenarioTests) ... ok
+test_broken_json_observed (test_project.ValidationAndScenarioTests) ... ok
+test_client_owns_all_nine_scenarios (test_project.ValidationAndScenarioTests) ... ok
+test_cross_origin_observed (test_project.ValidationAndScenarioTests) ... ok
+test_invalid_payloads_observed_and_private (test_project.ValidationAndScenarioTests) ... ok
+test_malformed_window_and_dedup (test_project.ValidationAndScenarioTests) ... ok
+test_oversized_observed (test_project.ValidationAndScenarioTests) ... ok
+test_validation_jsonl_persistence (test_project.ValidationAndScenarioTests) ... ok
 
 ----------------------------------------------------------------------
-Ran 24 tests in 0.085s
+Ran 36 tests in 0.130s
 
 OK

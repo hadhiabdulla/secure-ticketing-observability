@@ -1,5 +1,22 @@
 # Actual-run screenshots
 
+## Client-side walkthroughs and malformed-input fix (v2.1)
+
+Nine scenarios now run on the customer page. The dashboard only reads and refreshes. Actual Chromium screenshots, 2026-10-13.
+
+![Real request in flight](screenshots/client-in-flight.png)
+
+![Malformed inputs with HTTP results and alerts](screenshots/client-malformed-light.png)
+
+![Same-seat rush, dark mode](screenshots/client-rush-dark.png)
+
+![Client walkthrough, 390px mobile](screenshots/client-mobile.png)
+
+![Rejected payload trace and correlated WARN log](screenshots/malformed-trace.png)
+
+![Malformed input visible in Security](screenshots/malformed-security.png)
+
+
 ## Updated logo and report-style icons (2026-10-13)
 
 Captured from the running app after browsing, a booking rush, repeated failures and a request burst. The wordmark is the supplied logo with its white padding removed. All icons are local SVGs and remain readable in both themes.

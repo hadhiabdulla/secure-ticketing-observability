@@ -31,7 +31,7 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(self.client.get('/static/ticmint-logo.png').status_code,200)
     def test_local_sidebar_icons(self):
         body=self.client.get('/dashboard').get_data(as_text=True)
-        for icon in ('home','logs','traces','metrics','security','scenarios','services'):
+        for icon in ('home','logs','traces','metrics','security','services'):
             self.assertIn('icon-'+icon,body)
             self.assertEqual(self.client.get('/static/icons/'+icon+'.svg').status_code,200)
     def test_local_event_photos(self):
@@ -122,5 +122,60 @@ class ProjectTests(unittest.TestCase):
         r=self.client.get('/');self.assertIn("frame-ancestors 'none'",r.headers['Content-Security-Policy'])
     def test_health_summary(self):
         self.book();self.book();d=self.system.snapshot();self.assertEqual(d['requests'],2);self.assertEqual(d['errors'],1)
+
+class ValidationAndScenarioTests(unittest.TestCase):
+    def setUp(self):
+        self.system=Ticketing(); self.client=create_app(self.system).test_client()
+    def test_client_owns_all_nine_scenarios(self):
+        body=self.client.get('/').get_data(as_text=True)
+        for key in ('browse','checkout','rush','failures','burst','malformed','duplicate','multiseat','invalidseat'):
+            self.assertIn('data-scenario="'+key+'"',body)
+        self.assertIn('id="request-flow"',body)
+        dashboard=self.client.get('/dashboard').get_data(as_text=True)
+        self.assertNotIn('data-scenario',dashboard)
+        self.assertNotIn("method:'POST'",Path('static/app.js').read_text())
+    def test_invalid_payloads_observed_and_private(self):
+        payloads=[{'seat':3},{'event_id':'event-001'},'not-an-object',{'event_id':'secret@private.example'*10,'seat':'A1'},None,[]]
+        for payload in payloads:
+            r=self.client.post('/api/bookings',data=json.dumps(payload),content_type='application/json')
+            self.assertEqual(r.status_code,400);self.assertEqual(r.json['error'],'INVALID_INPUT')
+            d=self.client.get('/api/traces/'+r.json['trace_id']).json
+            self.assertEqual(d['trace']['status'],'error')
+            validation=next(s for s in d['trace']['spans'] if s['name']=='request.validate')
+            self.assertEqual(validation['error_code'],'INVALID_INPUT')
+            self.assertTrue(any(l['span_id']==validation['span_id'] and l['error_code']=='INVALID_INPUT' for l in d['logs']))
+        self.assertEqual(self.system.snapshot()['errors'],len(payloads));self.assertEqual(self.system.bookings,[])
+        self.assertNotIn('secret@private.example',json.dumps(self.system.snapshot()))
+        self.assertEqual(len([a for a in self.system.alerts if a['rule']=='malformed_input']),1)
+    def test_broken_json_observed(self):
+        r=self.client.post('/api/bookings',data='{"event_id":',content_type='application/json')
+        self.assertEqual(r.status_code,400);self.assertIn('trace_id',r.json)
+    def test_oversized_observed(self):
+        r=self.client.post('/api/bookings',data=json.dumps({'event_id':'x'*9000,'seat':'A1'}),content_type='application/json')
+        self.assertEqual(r.status_code,413);self.assertEqual(r.json['error'],'PAYLOAD_TOO_LARGE')
+        self.assertEqual(self.system.traces[0]['status'],'error');self.assertEqual(self.system.logs[0]['error_code'],'PAYLOAD_TOO_LARGE')
+    def test_cross_origin_observed(self):
+        r=self.client.post('/api/bookings',json={'event_id':'event-001','seat':'A1'},headers={'Origin':'https://evil.test'})
+        self.assertEqual(r.status_code,403);self.assertEqual(self.system.traces[0]['status'],'error')
+        self.assertEqual(self.system.logs[0]['error_code'],'CROSS_ORIGIN_BLOCKED');self.assertEqual(self.system.bookings,[])
+    def test_attempts_not_double_counted(self):
+        for i in range(7):self.client.post('/api/bookings',json={'event_id':'event-001','seat':f'A{i+1}'})
+        self.assertNotIn('request_burst',[a['rule'] for a in self.system.alerts])
+        self.client.post('/api/bookings',json={'seat':3})
+        self.assertIn('request_burst',[a['rule'] for a in self.system.alerts])
+    def test_malformed_window_and_dedup(self):
+        ticks=[0];system=Ticketing(clock=lambda:ticks[0]);client=create_app(system).test_client()
+        for tick in (0,61,122):
+            ticks[0]=tick;client.post('/api/bookings',json={'seat':3})
+        self.assertEqual(system.alerts,[])
+        for _ in range(5):client.post('/api/bookings',json={'seat':3})
+        self.assertEqual(len([a for a in system.alerts if a['rule']=='malformed_input']),1)
+    def test_validation_jsonl_persistence(self):
+        with tempfile.TemporaryDirectory() as path:
+            system=Ticketing(path);client=create_app(system).test_client()
+            for _ in range(3):client.post('/api/bookings',json={'seat':3})
+            for filename in ('logs.jsonl','traces.jsonl','alerts.jsonl'):
+                rows=[json.loads(line) for line in (Path(path)/filename).read_text().splitlines()]
+                self.assertTrue(rows);self.assertTrue(all('trace_id' in r for r in rows))
 
 if __name__=='__main__':unittest.main()

@@ -33,6 +33,7 @@ class Ticketing:
         self.events = list(events) if events is not None else [dict(event) for event in EVENTS]
         self.seats = {event['id']: {f'{row}{n}': None for row in SEAT_ROWS for n in range(1,SEATS_PER_ROW+1)} for event in self.events}
         self.logs, self.traces, self.alerts, self.bookings = [], [], [], []
+        self.validation_failures = defaultdict(deque); self.last_validation_alert = {}
         self.failures = defaultdict(deque); self.attempts = defaultdict(deque)
         self.last_alert = {}; self.last_burst = {}
 
@@ -89,10 +90,10 @@ class Ticketing:
             self.log(trace,'INFO','Seat map loaded',event_id=event_id)
             return [{'seat':seat,'available':booking is None} for seat,booking in self.seats[event_id].items()]
 
-    def book(self, trace, event_id, seat, user='demo-user', ip='local'):
+    def book(self, trace, event_id, seat, user='demo-user', ip='local', record_attempt=True):
         key = self.source_key(user, ip)
         with self.lock:
-            self._burst(trace, key)
+            if record_attempt: self._burst(trace, key)
             try:
                 with self.span(trace, 'inventory.reserve'):
                     if event_id not in self.seats: raise BookingError('EVENT_NOT_FOUND',404)
@@ -110,6 +111,26 @@ class Ticketing:
                 self.log(trace,'WARN','Booking failed',error_code=error.code,source_key=key)
                 self._detect(trace,key)
                 raise
+
+    def record_attempt(self, trace, key):
+        with self.lock: self._burst(trace,key)
+
+    def reject(self, trace, key, code, status):
+        # Only fixed codes and pseudonyms are logged, never the submitted payload.
+        with self.lock:
+            self.log(trace,'WARN','Booking request rejected',error_code=code,source_key=key)
+            self._detect(trace,key)
+            if code in ('INVALID_INPUT','PAYLOAD_TOO_LARGE'):
+                now=self.clock(); window=self.validation_failures[key]
+                while window and now-window[0] > 60: window.popleft()
+                window.append(now)
+                if len(window) >= 3 and now-self.last_validation_alert.get(key,float('-inf')) >= 60:
+                    alert={'alert_id':str(uuid.uuid4()),'severity':'MEDIUM','rule':'malformed_input',
+                           'source_key':key,'failure_count':len(window),'window_seconds':60,
+                           'trace_id':trace['trace_id'],'timestamp':datetime.now(timezone.utc).isoformat(),
+                           'message':'Three or more malformed booking requests in 60s. Possible fuzzing or a broken client; investigate before blocking.'}
+                    self.alerts.append(alert); self._write('alerts.jsonl',alert); self.last_validation_alert[key]=now
+        raise BookingError(code,status)
 
     def _burst(self, trace, key):
         now = self.clock(); window = self.attempts[key]

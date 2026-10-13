@@ -6,6 +6,7 @@ import mimetypes
 # Older Python/Windows MIME tables may not know WebP.
 mimetypes.add_type("image/webp", ".webp")
 from flask import Flask, jsonify, request, render_template
+from werkzeug.exceptions import RequestEntityTooLarge
 from core import Ticketing, BookingError
 
 def create_app(system=None):
@@ -34,15 +35,21 @@ def create_app(system=None):
         except BookingError as error: return jsonify(error=error.code,trace_id=trace['trace_id']),error.status
     @app.post('/api/bookings')
     def book():
-        if request.headers.get('Origin') and request.headers['Origin'] != request.host_url.rstrip('/'):
-            return jsonify(error='CROSS_ORIGIN_BLOCKED'),403
-        data=request.get_json(silent=True)
-        if not isinstance(data,dict) or not all(isinstance(data.get(k),str) and 0<len(data[k])<80 for k in ('event_id','seat')):
-            return jsonify(error='INVALID_INPUT'),400
-        # A fixed demo actor. No real identity, proxy headers or arbitrary IDs are trusted.
+        # Observe validation too: no rejected booking request disappears.
         try:
             with system.request('booking.submit') as trace:
-                booking=system.book(trace,data['event_id'],data['seat'],'demo-user',request.remote_addr or 'local')
+                key=system.source_key('demo-user',request.remote_addr or 'local')
+                system.record_attempt(trace,key)
+                with system.span(trace,'request.validate'):
+                    if request.headers.get('Origin') and request.headers['Origin'] != request.host_url.rstrip('/'):
+                        system.reject(trace,key,'CROSS_ORIGIN_BLOCKED',403)
+                    try:
+                        data=request.get_json(silent=True)
+                    except RequestEntityTooLarge:
+                        system.reject(trace,key,'PAYLOAD_TOO_LARGE',413)
+                    if not isinstance(data,dict) or not all(isinstance(data.get(k),str) and 0<len(data[k])<80 for k in ('event_id','seat')):
+                        system.reject(trace,key,'INVALID_INPUT',400)
+                booking=system.book(trace,data['event_id'],data['seat'],'demo-user',request.remote_addr or 'local',record_attempt=False)
             return jsonify(booking=booking,trace_id=trace['trace_id']),201
         except BookingError as error: return jsonify(error=error.code,trace_id=trace['trace_id']),error.status
     @app.get('/api/observability')

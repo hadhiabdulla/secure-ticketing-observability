@@ -34,8 +34,8 @@ Keep the terminal open and open **http://127.0.0.1:5000**. Press Ctrl+C to stop.
 
 ## The two apps
 
-- **Booking site** (`/`): a customer-facing ticketing website. Six sample events across music, tech, comedy, sport and film, search and category filters, a real seat map with multi-seat selection, an order summary with per-event pricing in rupees, and booking confirmation with references.
-- **Observability dashboard** (`/dashboard`): summary cards, per-minute request charts, requests by operation, HTTP outcome donut, searchable JSON logs, a trace explorer with span waterfall and correlated logs, a security view, and one-click traffic/attack scenarios. The booking site and dashboard share one backend: every booking, failure and scenario run appears live in the dashboard.
+- **Booking site** (`/`): a customer-facing ticketing website. Six sample events across music, tech, comedy, sport and film, search and category filters, a real seat map with multi-seat selection, an order summary with per-event pricing in rupees, and booking confirmation with references. Its Scenarios section has nine interactive traffic/attack walkthroughs.
+- **Observability dashboard** (`/dashboard`): summary cards, per-minute request charts, requests by operation, HTTP outcome donut, searchable JSON logs, a trace explorer with span waterfall and correlated logs, a security view, and a read-only view that auto-refreshes every two seconds. The booking site and dashboard share one backend: every booking, failure and scenario run appears live in the dashboard.
 
 Both apps have a **dark/light mode** toggle in the header (remembered per browser, following the system preference by default).
 
@@ -44,8 +44,8 @@ Both apps have a **dark/light mode** toggle in the header (remembered per browse
 1. Open **http://127.0.0.1:5000**, pick an event, select two seats and confirm the booking.
 2. Open **Observability dashboard** from the header: counts, request charts and logs already show your activity.
 3. Open **Traces**, select a booking and inspect its spans and matching JSON logs.
-4. Open **Scenarios** and run **Repeated booking failures** and **Bot burst**; both are real HTTP request runs.
-5. Open **Security** to see the HIGH repeated-failure alert and the MEDIUM request-burst alert, then **Investigate trace** to follow an alert into its failed request.
+4. On the **booking site**, open **Scenarios** and run **Malformed input**. Stay on that page: the request-path animation, progress, individual HTTP results, actual metric changes and alert messages explain the run. Keep the dashboard open in another tab to watch it update.
+5. Open **Security** on the dashboard to see the MEDIUM malformed-input alert and HIGH repeated-failure signal, then **Investigate trace** to see `request.validate` and its WARN log. Each client response also links directly to its trace.
 6. Flip **Dark mode** in the header on either app.
 
 ## Features
@@ -54,11 +54,13 @@ Both apps have a **dark/light mode** toggle in the header (remembered per browse
 - Separate observability dashboard fed live by the same Flask backend.
 - Dark and light themes on both apps.
 - Seat reservation protected by a lock: concurrent requests cannot book the same seat twice.
-- Five one-click scenarios: customer browsing, concurrent booking rush, repeated failures (HIGH alert), bot burst (MEDIUM alert) and malformed-input rejection.
+- Nine client-side walkthroughs: browsing, successful checkout, same-seat booking rush, repeated invalid-event failures, bot burst, malformed input, double-booking protection, multi-seat traffic and invalid-seat probing.
+- Moving request-path animation (static for reduced motion), live request outcomes, trace links and actual before/after metric changes. No automatic redirect or fake results.
+- Malformed JSON, wrong types/missing fields, overlong fields, non-object payloads and oversized bodies are rejected, logged and traced before inventory runs.
 - Explicit EVENT_NOT_FOUND, SEAT_NOT_FOUND and SEAT_UNAVAILABLE responses.
 - Structured JSON logs with timestamp, level, service, region, partner_id, trace_id and span_id.
 - Root request spans and child inventory/persistence spans with measured durations.
-- HIGH alert after 3 booking failures from the same pseudonymous source in 60 seconds; MEDIUM alert after 8 booking attempts in 10 seconds; alert deduplication.
+- HIGH alert after 3 booking failures from the same pseudonymous source in 60 seconds; MEDIUM alert after 8 booking attempts in 10 seconds; MEDIUM malformed-input alert after 3 invalid/oversized requests in 60 seconds; alert deduplication.
 - Security view lists the live HTTP protections (CSP, nosniff, no-store), the cross-origin POST block and the data-minimization rules.
 - Privacy-focused field allowlist, process-local HMAC source pseudonyms, cross-origin POST checks and restrictive browser headers.
 - Mobile layout, Windows launcher, repeatable demo and automated tests.
@@ -72,7 +74,7 @@ python -m unittest discover -s tests -v
 python demo.py
 ```
 
-The included test run passed **24 tests**. `demo.py` actually executed 7 requests: event discovery, seat lookup, 2 successful bookings and 3 failures, creating 1 HIGH alert. Trace IDs, timestamps and timings change every run.
+The included test run passed **36 tests**. `demo.py` actually executed 7 requests: event discovery, seat lookup, 2 successful bookings and 3 failures, creating 1 HIGH alert. Trace IDs, timestamps and timings change every run.
 
 Evidence files:
 
@@ -123,3 +125,13 @@ See [architecture](docs/architecture.md), [report mapping](docs/report-mapping.m
 ### Event artwork
 
 The booking cards and event details use six original generated illustrative images, not photos of the named sample events. The WebP assets in `static/events/` total about 134 KiB and work offline after setup. No external image requests or extra packages are needed. See `static/events/README.md` for the asset mapping and reuse notes.
+
+### Presenting the scenarios
+
+Open `/` and use **Scenarios** in the header. Each run stays on the client page. A moving packet and highlighted stages show the browser/server/observer path, then each real response shows its HTTP status, elapsed network time and correlated trace link. The animation is an explanatory visualization, not a measurement of the server's internal stages. Request results and dashboard numbers are real.
+
+The malformed run sends six payloads, including genuinely broken JSON and a body larger than the 8 KiB limit. Expect five `INVALID_INPUT` 400 responses and one `PAYLOAD_TOO_LARGE` 413, six WARN logs and six error traces. Three malformed requests within 60 seconds raise `malformed_input` (MEDIUM). They also count toward the repeated-booking-failure rule (HIGH). No malformed payload or raw address is saved.
+
+Alerts have a per-rule/source 60-second cooldown. Re-running scenarios inside that minute may add errors and traces without a **new** alert. Existing alerts remain visible in Security. The client reports the actual change instead of promising a new alert every run. Rush, checkout, duplicate and multi-seat runs consume sample seats; restart the app for a clean presentation. Browsing does not book anything.
+
+The dashboard does not send bookings or run scenarios. Its observation reads do not inflate the request charts. Keep its tab visible to auto-refresh; hidden tabs pause refreshing. This is local-only sample traffic, not a tool for attacking external sites. No extra run-time packages or setup were added.
