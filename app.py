@@ -1,4 +1,4 @@
-"""Loopback-only, synthetic classroom demo. Not an internet-facing service."""
+"""Loopback-only local demo. Not an internet-facing service."""
 from pathlib import Path
 import os
 from flask import Flask, jsonify, request, render_template
@@ -13,7 +13,11 @@ def create_app(system=None):
         response.headers['Content-Security-Policy']="default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; object-src 'none'"
         response.headers['Cache-Control']='no-store'; return response
     @app.get('/')
-    def index(): return render_template('index.html')
+    def booking_site(): return render_template('booking.html')
+    @app.get('/favicon.ico')
+    def favicon(): return ('',204)
+    @app.get('/dashboard')
+    def dashboard(): return render_template('index.html')
     @app.get('/api/events')
     def events():
         with system.request('events.list') as trace: result=system.list_events(trace)
@@ -31,7 +35,7 @@ def create_app(system=None):
         data=request.get_json(silent=True)
         if not isinstance(data,dict) or not all(isinstance(data.get(k),str) and 0<len(data[k])<80 for k in ('event_id','seat')):
             return jsonify(error='INVALID_INPUT'),400
-        # A fixed synthetic actor. No real identity, proxy headers or arbitrary IDs are trusted.
+        # A fixed demo actor. No real identity, proxy headers or arbitrary IDs are trusted.
         try:
             with system.request('booking.submit') as trace:
                 booking=system.book(trace,data['event_id'],data['seat'],'demo-user',request.remote_addr or 'local')
