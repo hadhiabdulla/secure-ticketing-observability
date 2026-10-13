@@ -1,7 +1,16 @@
 {
-  "booking": "PASS",
-  "security_alert": "PASS",
-  "trace_explorer": "PASS",
-  "mobile_overflow": false,
-  "javascript_errors": []
+  "environment": "Chromium headless (Playwright) on Linux, 2026-10-13",
+  "checks": [
+    {"page": "/", "viewport": "1280x900", "theme": "light", "result": "pass", "notes": "event grid, search, chips render"},
+    {"page": "/", "viewport": "1280x900", "theme": "dark", "result": "pass", "notes": "theme toggle applies dark palette"},
+    {"page": "/ event detail", "viewport": "1280x900", "result": "pass", "notes": "seat map, multi-select, order summary total"},
+    {"page": "/ order confirm", "viewport": "1280x900", "result": "pass", "notes": "2 seats confirmed with references; seats then show sold"},
+    {"page": "/dashboard", "viewport": "1280x900", "theme": "light+dark", "result": "pass", "notes": "booking activity visible live in metrics, charts, logs"},
+    {"page": "/dashboard scenarios", "result": "pass", "notes": "failures and burst scenarios produced HIGH and MEDIUM alerts"},
+    {"page": "/dashboard security", "result": "pass", "notes": "both alerts with severities, live HTTP protections listed"},
+    {"page": "/dashboard traces", "result": "pass", "notes": "span waterfall plus correlated JSON logs"},
+    {"page": "/ and /dashboard", "viewport": "390x844", "result": "pass", "notes": "no horizontal overflow"}
+  ],
+  "javascript_errors": "none beyond intentional scenario HTTP 4xx responses",
+  "horizontal_overflow": false
 }
