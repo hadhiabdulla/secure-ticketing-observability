@@ -2,21 +2,61 @@
   {
     "events": [
       {
-        "date": "Demo date",
+        "category": "Music",
+        "date": "Fri 21 Nov 2026, 7:00 PM",
         "id": "event-001",
         "partner_id": "partner-demo",
-        "title": "Demo Music Night",
-        "venue": "Synthetic Hall"
+        "price": 1499,
+        "title": "Echo Valley Live",
+        "venue": "Grand Arena, Kochi"
       },
       {
-        "date": "Demo date",
+        "category": "Tech",
+        "date": "Sat 06 Dec 2026, 9:30 AM",
         "id": "event-002",
         "partner_id": "partner-demo",
-        "title": "Demo Tech Meetup",
-        "venue": "Synthetic Campus"
+        "price": 999,
+        "title": "National Tech Summit",
+        "venue": "Convention Centre, Bengaluru"
+      },
+      {
+        "category": "Comedy",
+        "date": "Sun 16 Nov 2026, 6:30 PM",
+        "id": "event-003",
+        "partner_id": "partner-demo",
+        "price": 499,
+        "title": "Stand-up Night: Full House",
+        "venue": "City Lights Theatre, Kozhikode"
+      },
+      {
+        "category": "Sports",
+        "date": "Wed 26 Nov 2026, 7:30 PM",
+        "id": "event-004",
+        "partner_id": "partner-demo",
+        "price": 1999,
+        "title": "Champions T20 Final",
+        "venue": "Greenfield Stadium, Thiruvananthapuram"
+      },
+      {
+        "category": "Music",
+        "date": "Sat 29 Nov 2026, 6:00 PM",
+        "id": "event-005",
+        "partner_id": "partner-demo",
+        "price": 799,
+        "title": "Classical Fusion Evening",
+        "venue": "Riverside Auditorium, Thrissur"
+      },
+      {
+        "category": "Film",
+        "date": "Fri 05 Dec 2026, 8:00 PM",
+        "id": "event-006",
+        "partner_id": "partner-demo",
+        "price": 349,
+        "title": "Indie Film Premiere",
+        "venue": "Marina Drive-in, Mangaluru"
       }
     ],
-    "trace_id": "b5a64847bbde50877b9aae8e412d735c"
+    "trace_id": "2c47d20b2f6181aa9fe30a193c136c21"
   },
   {
     "seats": [
@@ -46,6 +86,22 @@
       },
       {
         "available": true,
+        "seat": "A7"
+      },
+      {
+        "available": true,
+        "seat": "A8"
+      },
+      {
+        "available": true,
+        "seat": "A9"
+      },
+      {
+        "available": true,
+        "seat": "A10"
+      },
+      {
+        "available": true,
         "seat": "B1"
       },
       {
@@ -67,43 +123,179 @@
       {
         "available": true,
         "seat": "B6"
+      },
+      {
+        "available": true,
+        "seat": "B7"
+      },
+      {
+        "available": true,
+        "seat": "B8"
+      },
+      {
+        "available": true,
+        "seat": "B9"
+      },
+      {
+        "available": true,
+        "seat": "B10"
+      },
+      {
+        "available": true,
+        "seat": "C1"
+      },
+      {
+        "available": true,
+        "seat": "C2"
+      },
+      {
+        "available": true,
+        "seat": "C3"
+      },
+      {
+        "available": true,
+        "seat": "C4"
+      },
+      {
+        "available": true,
+        "seat": "C5"
+      },
+      {
+        "available": true,
+        "seat": "C6"
+      },
+      {
+        "available": true,
+        "seat": "C7"
+      },
+      {
+        "available": true,
+        "seat": "C8"
+      },
+      {
+        "available": true,
+        "seat": "C9"
+      },
+      {
+        "available": true,
+        "seat": "C10"
+      },
+      {
+        "available": true,
+        "seat": "D1"
+      },
+      {
+        "available": true,
+        "seat": "D2"
+      },
+      {
+        "available": true,
+        "seat": "D3"
+      },
+      {
+        "available": true,
+        "seat": "D4"
+      },
+      {
+        "available": true,
+        "seat": "D5"
+      },
+      {
+        "available": true,
+        "seat": "D6"
+      },
+      {
+        "available": true,
+        "seat": "D7"
+      },
+      {
+        "available": true,
+        "seat": "D8"
+      },
+      {
+        "available": true,
+        "seat": "D9"
+      },
+      {
+        "available": true,
+        "seat": "D10"
+      },
+      {
+        "available": true,
+        "seat": "E1"
+      },
+      {
+        "available": true,
+        "seat": "E2"
+      },
+      {
+        "available": true,
+        "seat": "E3"
+      },
+      {
+        "available": true,
+        "seat": "E4"
+      },
+      {
+        "available": true,
+        "seat": "E5"
+      },
+      {
+        "available": true,
+        "seat": "E6"
+      },
+      {
+        "available": true,
+        "seat": "E7"
+      },
+      {
+        "available": true,
+        "seat": "E8"
+      },
+      {
+        "available": true,
+        "seat": "E9"
+      },
+      {
+        "available": true,
+        "seat": "E10"
       }
     ],
-    "trace_id": "08547ff3a28e42778149a62bc7984962"
+    "trace_id": "0cd95b6297a3e383068c0daee74ecd58"
   },
   {
     "status": 201,
     "booking": {
-      "booking_id": "bc8ceee8-f54b-4bfd-9f83-0c536f8e5628",
+      "booking_id": "1bbab21e-f4d2-44d8-b40e-c52af140cb5c",
       "event_id": "event-001",
-      "partner_id": "partner-demo",
+      "price": 1499,
       "seat": "A1"
     },
-    "trace_id": "a08c66fb00fa0e43505e08ac49a0af51"
+    "trace_id": "110e0bd654b347e01f5c5e1d6c577655"
   },
   {
     "status": 201,
     "booking": {
-      "booking_id": "25a5668d-bd1d-4075-8130-49cffaa5664f",
+      "booking_id": "f6cb6250-bcc3-468c-bbc0-aa24fb05cfb9",
       "event_id": "event-001",
-      "partner_id": "partner-demo",
+      "price": 1499,
       "seat": "A2"
     },
-    "trace_id": "dbf477adb62bd1f323f8ecdc4b7dd8fb"
+    "trace_id": "0c81b67020ae1af7d8c2b8dfef0568a4"
   },
   {
     "status": 409,
     "error": "SEAT_UNAVAILABLE",
-    "trace_id": "a2241f9de4a1897afcccd7745e54dbfd"
+    "trace_id": "3ba501ed1cc1bf2690fc9c240f26a7c4"
   },
   {
     "status": 404,
     "error": "EVENT_NOT_FOUND",
-    "trace_id": "064ca4770fd33636e48a4bd11b717e6f"
+    "trace_id": "973227885625ecd7c45b13d13483350e"
   },
   {
     "status": 404,
     "error": "SEAT_NOT_FOUND",
-    "trace_id": "f340ca2652e52b9f5ead629195df9103"
+    "trace_id": "cb00629d09e59a5469e01813c61a369e"
   }
 ]
