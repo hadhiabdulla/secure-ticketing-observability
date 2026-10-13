@@ -1,0 +1,109 @@
+[
+  {
+    "events": [
+      {
+        "date": "Demo date",
+        "id": "event-001",
+        "partner_id": "partner-demo",
+        "title": "Demo Music Night",
+        "venue": "Synthetic Hall"
+      },
+      {
+        "date": "Demo date",
+        "id": "event-002",
+        "partner_id": "partner-demo",
+        "title": "Demo Tech Meetup",
+        "venue": "Synthetic Campus"
+      }
+    ],
+    "trace_id": "b5a64847bbde50877b9aae8e412d735c"
+  },
+  {
+    "seats": [
+      {
+        "available": true,
+        "seat": "A1"
+      },
+      {
+        "available": true,
+        "seat": "A2"
+      },
+      {
+        "available": true,
+        "seat": "A3"
+      },
+      {
+        "available": true,
+        "seat": "A4"
+      },
+      {
+        "available": true,
+        "seat": "A5"
+      },
+      {
+        "available": true,
+        "seat": "A6"
+      },
+      {
+        "available": true,
+        "seat": "B1"
+      },
+      {
+        "available": true,
+        "seat": "B2"
+      },
+      {
+        "available": true,
+        "seat": "B3"
+      },
+      {
+        "available": true,
+        "seat": "B4"
+      },
+      {
+        "available": true,
+        "seat": "B5"
+      },
+      {
+        "available": true,
+        "seat": "B6"
+      }
+    ],
+    "trace_id": "08547ff3a28e42778149a62bc7984962"
+  },
+  {
+    "status": 201,
+    "booking": {
+      "booking_id": "bc8ceee8-f54b-4bfd-9f83-0c536f8e5628",
+      "event_id": "event-001",
+      "partner_id": "partner-demo",
+      "seat": "A1"
+    },
+    "trace_id": "a08c66fb00fa0e43505e08ac49a0af51"
+  },
+  {
+    "status": 201,
+    "booking": {
+      "booking_id": "25a5668d-bd1d-4075-8130-49cffaa5664f",
+      "event_id": "event-001",
+      "partner_id": "partner-demo",
+      "seat": "A2"
+    },
+    "trace_id": "dbf477adb62bd1f323f8ecdc4b7dd8fb"
+  },
+  {
+    "status": 409,
+    "error": "SEAT_UNAVAILABLE",
+    "trace_id": "a2241f9de4a1897afcccd7745e54dbfd"
+  },
+  {
+    "status": 404,
+    "error": "EVENT_NOT_FOUND",
+    "trace_id": "064ca4770fd33636e48a4bd11b717e6f"
+  },
+  {
+    "status": 404,
+    "error": "SEAT_NOT_FOUND",
+    "trace_id": "f340ca2652e52b9f5ead629195df9103"
+  }
+]
