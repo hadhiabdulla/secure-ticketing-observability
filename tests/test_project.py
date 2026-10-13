@@ -34,6 +34,22 @@ class ProjectTests(unittest.TestCase):
         for icon in ('home','logs','traces','metrics','security','scenarios','services'):
             self.assertIn('icon-'+icon,body)
             self.assertEqual(self.client.get('/static/icons/'+icon+'.svg').status_code,200)
+    def test_local_event_photos(self):
+        files=('echo-valley','tech-summit','comedy-night','cricket-final','classical-fusion','film-premiere')
+        total=0
+        for name in files:
+            response=self.client.get('/static/events/'+name+'.webp')
+            self.assertEqual(response.status_code,200)
+            self.assertEqual(response.mimetype,'image/webp')
+            self.assertTrue(response.data.startswith(b'RIFF'))
+            total+=len(response.data);response.close()
+        self.assertLess(total,180_000)
+    def test_event_photo_wiring(self):
+        script=Path('static/booking.js').read_text()
+        for event in self.system.events:
+            self.assertIn(event['id'],script)
+        self.assertIn("img.loading='lazy'",script)
+        self.assertIn('id="ev-image"',self.client.get('/').get_data(as_text=True))
     def test_successful_booking(self):
         response=self.book();self.assertEqual(response.status_code,201)
         self.assertEqual(response.json['booking']['price'],1499)

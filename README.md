@@ -119,3 +119,7 @@ artifacts/      runtime JSONL logs/traces/alerts (git-ignored)
 - The source plan's cloud rollout, senior reviews, Jira/Slack setup and production definition of done are not claimed complete.
 
 See [architecture](docs/architecture.md), [report mapping](docs/report-mapping.md) and [security runbook](docs/security-runbook.md).
+
+### Event artwork
+
+The booking cards and event details use six original generated illustrative images, not photos of the named sample events. The WebP assets in `static/events/` total about 134 KiB and work offline after setup. No external image requests or extra packages are needed. See `static/events/README.md` for the asset mapping and reuse notes.

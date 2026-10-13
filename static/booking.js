@@ -1,7 +1,24 @@
 const $=id=>document.getElementById(id);
 let EVENTS=[],current=null,selected=new Set(),category='All';
 const CATS=['All','Music','Tech','Comedy','Sports','Film'];
-const GRADIENTS={Music:'linear-gradient(135deg,#0e9f6e,#33bc8d)',Tech:'linear-gradient(135deg,#155e75,#2aa5c4)',Comedy:'linear-gradient(135deg,#b45309,#f0b23e)',Sports:'linear-gradient(135deg,#1d4ed8,#5aa1f2)',Film:'linear-gradient(135deg,#7c3aed,#c084fc)'};
+const EVENT_IMAGES={
+  'event-001':{file:'echo-valley.webp',alt:'Purple-lit concert stage and crowd'},
+  'event-002':{file:'tech-summit.webp',alt:'Audience at a blue-lit technology conference'},
+  'event-003':{file:'comedy-night.webp',alt:'Microphone on a warmly lit comedy stage'},
+  'event-004':{file:'cricket-final.webp',alt:'Cricket players in a floodlit stadium'},
+  'event-005':{file:'classical-fusion.webp',alt:'Sitar and violin performers on a red-lit stage'},
+  'event-006':{file:'film-premiere.webp',alt:'Outdoor cinema screen and parked cars at night'}
+};
+function eventImage(event,cls){
+  const info=EVENT_IMAGES[event.id];
+  if(!info)return null;
+  const img=node('img',undefined,cls);
+  img.src='/static/events/'+info.file;img.alt=info.alt;
+  img.width=536;img.height=357;img.loading='lazy';img.decoding='async';
+  img.title='Illustrative generated image, not a photograph of the listed event';
+  img.addEventListener('error',()=>img.hidden=true,{once:true});
+  return img;
+}
 function node(tag,text,cls){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;}
 async function api(path,options){const r=await fetch(path,options);let body={};try{body=await r.json();}catch(e){}return {ok:r.ok,status:r.status,...body};}
 function money(p){return '₹'+Number(p).toLocaleString('en-IN');}
@@ -13,7 +30,8 @@ function renderGrid(){
   if(!list.length){grid.append(node('p','No events match that search.','muted'));return;}
   for(const e of list){
     const card=node('article','','card');
-    const banner=node('div','','card-banner');banner.style.background=GRADIENTS[e.category]||GRADIENTS.Music;
+    const banner=node('div','','card-banner');
+    const image=eventImage(e,'event-photo');if(image)banner.append(image);
     banner.append(node('span',e.category,'tag'));
     card.append(banner);
     const body=node('div','','card-body');
@@ -28,6 +46,8 @@ async function openEvent(id){
   current=EVENTS.find(e=>e.id===id);selected=new Set();
   $('home-view').hidden=true;$('event-view').hidden=false;
   $('ev-title').textContent=current.title;
+  const hero=eventImage(current,'event-detail-photo');
+  $('ev-image').replaceChildren(...(hero?[hero]:[]));
   $('ev-meta').textContent=`${current.venue} · ${current.date} · ${money(current.price)} per seat`;
   $('ord-event').textContent=current.title;
   $('ord-result').textContent='';$('confirm').disabled=true;
