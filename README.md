@@ -4,9 +4,9 @@ An easy-to-run Python ticket-booking web application with a connected observabil
 
 This is a **fresh reference implementation**, not recovered internship source code or Ticmint production software. The events, seats and prices are sample data. No company document, certificate, personal details, payment data or real customer traffic is included.
 
-![Booking site from an actual local run](https://github.com/user-attachments/assets/b0e5c65d-fa93-4332-904c-906acf31be12)
+![Booking site from an actual local run](evidence/screenshots/booking-light.png)
 
-![Observability dashboard from the same run](https://github.com/user-attachments/assets/d2b799c7-5f57-4663-8675-40263cb68cce)
+![Observability dashboard from the same run](evidence/screenshots/dashboard-light.png)
 
 More captures, including dark mode, security alerts and mobile, are in [evidence/screenshots.md](evidence/screenshots.md) and the [v2.0.0 release notes](https://github.com/hadhiabdulla/secure-ticketing-observability/releases/tag/v2.0.0).
 
