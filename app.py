@@ -1,6 +1,10 @@
 """Loopback-only local demo. Not an internet-facing service."""
 from pathlib import Path
 import os
+import mimetypes
+
+# Older Python/Windows MIME tables may not know WebP.
+mimetypes.add_type("image/webp", ".webp")
 from flask import Flask, jsonify, request, render_template
 from core import Ticketing, BookingError
 
