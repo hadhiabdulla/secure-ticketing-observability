@@ -1,7 +1,7 @@
 <!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ticmint - book live events</title><link rel="stylesheet" href="/static/style.css"><script src="/static/theme.js" defer></script><script src="/static/booking.js" defer></script></head><body class="booking-body">
 <header class="site-header">
-  <a class="brand" href="/">ticmint</a>
-  <nav class="site-nav"><a href="/" class="active">Events</a><a href="/dashboard">Observability dashboard</a></nav>
+  <a class="brand" href="/" aria-label="Ticmint home"><img src="/static/ticmint-logo.png" alt="ticmint" width="281" height="69"></a>
+  <nav class="site-nav"><a href="/" class="active">Events</a><a href="/dashboard">Dashboard</a></nav>
   <button id="theme-toggle" class="theme-toggle" type="button">Dark</button>
 </header>
 <div id="home-view">
@@ -14,7 +14,7 @@
   <main class="event-grid" id="event-grid"></main>
 </div>
 <section id="event-view" hidden>
-  <button id="back" class="link-button" type="button">&larr; All events</button>
+  <button id="back" class="link-button" type="button"><span class="icon icon-back" aria-hidden="true"></span>All events</button>
   <div class="event-detail">
     <div class="seat-area">
       <h2 id="ev-title"></h2>

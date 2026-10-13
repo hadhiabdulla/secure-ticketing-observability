@@ -12,7 +12,7 @@ code{background:var(--code);border-radius:5px;padding:.1rem .35rem;font-size:.82
 h1{font-size:1.4rem}h2{font-size:1.02rem;margin-bottom:.6rem}h3{font-size:.95rem}
 .site-header{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:1.2rem;padding:.7rem 1.4rem;background:var(--panel);border-bottom:1px solid var(--border)}
 .brand{font-size:1.25rem;font-weight:800;color:var(--accent);text-decoration:none}
-.brand small{font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+
 .site-nav{display:flex;gap:.2rem;margin-left:auto}
 .site-nav a{color:var(--muted);text-decoration:none;padding:.45rem .8rem;border-radius:8px;font-size:.92rem}
 .site-nav a.active,.site-nav a:hover{color:var(--text);background:var(--panel-2)}
@@ -102,3 +102,34 @@ section{background:var(--panel);border:1px solid var(--border);border-radius:12p
   .order-panel{position:static}
   .site-nav a{padding:.45rem .5rem}
 }
+
+/* Local report-style icons and supplied Ticmint wordmark */
+.brand{display:inline-flex;align-items:center;flex-shrink:0;line-height:1}
+.brand img{display:block;width:126px;height:auto}
+.icon{display:inline-block;width:18px;height:18px;flex:0 0 18px;background:currentColor;mask-repeat:no-repeat;mask-position:center;mask-size:contain;-webkit-mask-repeat:no-repeat;-webkit-mask-position:center;-webkit-mask-size:contain;vertical-align:middle}
+.icon-home{mask-image:url("/static/icons/home.svg");-webkit-mask-image:url("/static/icons/home.svg")}
+.icon-logs{mask-image:url("/static/icons/logs.svg");-webkit-mask-image:url("/static/icons/logs.svg")}
+.icon-traces{mask-image:url("/static/icons/traces.svg");-webkit-mask-image:url("/static/icons/traces.svg")}
+.icon-metrics{mask-image:url("/static/icons/metrics.svg");-webkit-mask-image:url("/static/icons/metrics.svg")}
+.icon-security{mask-image:url("/static/icons/security.svg");-webkit-mask-image:url("/static/icons/security.svg")}
+.icon-scenarios{mask-image:url("/static/icons/scenarios.svg");-webkit-mask-image:url("/static/icons/scenarios.svg")}
+.icon-services{mask-image:url("/static/icons/services.svg");-webkit-mask-image:url("/static/icons/services.svg")}
+.icon-refresh{mask-image:url("/static/icons/refresh.svg");-webkit-mask-image:url("/static/icons/refresh.svg")}
+.icon-back{mask-image:url("/static/icons/back.svg");-webkit-mask-image:url("/static/icons/back.svg")}
+.icon-ticket{mask-image:url("/static/icons/ticket.svg");-webkit-mask-image:url("/static/icons/ticket.svg")}
+.icon-check{mask-image:url("/static/icons/check.svg");-webkit-mask-image:url("/static/icons/check.svg")}
+.icon-error{mask-image:url("/static/icons/error.svg");-webkit-mask-image:url("/static/icons/error.svg")}
+.icon-clock{mask-image:url("/static/icons/clock.svg");-webkit-mask-image:url("/static/icons/clock.svg")}
+.icon-sun{mask-image:url("/static/icons/sun.svg");-webkit-mask-image:url("/static/icons/sun.svg")}
+.icon-moon{mask-image:url("/static/icons/moon.svg");-webkit-mask-image:url("/static/icons/moon.svg")}
+#nav button,#refresh,.site-nav a,.link-button{display:flex;align-items:center;gap:.65rem}
+#nav button.active{color:var(--accent);font-weight:600}
+.metric{flex-direction:row;align-items:center;gap:.85rem}
+.metric-icon{width:38px;height:38px;flex:0 0 38px;display:flex;align-items:center;justify-content:center;background:var(--panel-2);color:var(--accent);border-radius:10px}
+.metric-icon .icon{width:24px;height:24px;flex-basis:24px}
+.metric.bad .metric-icon{color:var(--danger)}
+.metric-content{display:flex;flex-direction:column;gap:.3rem}
+button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(max-width:480px){.site-header{gap:.5rem;padding:.7rem .75rem;flex-wrap:wrap}.brand img{width:104px}.site-nav a{font-size:.8rem;padding:.4rem}.theme-toggle{margin-left:auto}.shell main{padding:1rem}.heading{align-items:center}#nav button{white-space:nowrap;flex-shrink:0}.metric{padding:.8rem}.metric-icon{width:32px;height:32px;flex-basis:32px}.heading h1{font-size:1.15rem}}
+.metric .metric-icon .icon{color:var(--accent)}
+.metric.bad .metric-icon .icon{color:var(--danger)}

@@ -23,6 +23,17 @@ class ProjectTests(unittest.TestCase):
     def test_dashboard_page(self):
         response=self.client.get('/dashboard');body=response.get_data(as_text=True)
         self.assertEqual(response.status_code,200);self.assertIn('Observability',body)
+    def test_brand_logo_on_both_pages(self):
+        for route in ('/', '/dashboard'):
+            body=self.client.get(route).get_data(as_text=True)
+            self.assertIn('src="/static/ticmint-logo.png"',body)
+            self.assertNotIn('<small>observability</small>',body.lower())
+        self.assertEqual(self.client.get('/static/ticmint-logo.png').status_code,200)
+    def test_local_sidebar_icons(self):
+        body=self.client.get('/dashboard').get_data(as_text=True)
+        for icon in ('home','logs','traces','metrics','security','scenarios','services'):
+            self.assertIn('icon-'+icon,body)
+            self.assertEqual(self.client.get('/static/icons/'+icon+'.svg').status_code,200)
     def test_successful_booking(self):
         response=self.book();self.assertEqual(response.status_code,201)
         self.assertEqual(response.json['booking']['price'],1499)

@@ -1,5 +1,24 @@
 # Actual-run screenshots
 
+## Updated logo and report-style icons (2026-10-13)
+
+Captured from the running app after browsing, a booking rush, repeated failures and a request burst. The wordmark is the supplied logo with its white padding removed. All icons are local SVGs and remain readable in both themes.
+
+![Updated dashboard, light](screenshots/dashboard-light.png)
+
+![Updated dashboard, dark](screenshots/dashboard-dark.png)
+
+![Updated booking site, light](screenshots/booking-light.png)
+
+![Updated booking site, dark](screenshots/booking-dark.png)
+
+![Updated dashboard, mobile](screenshots/dashboard-mobile.png)
+
+![Updated booking site, mobile](screenshots/booking-mobile.png)
+
+## Earlier v2.0.0 screenshots
+
+
 All images below were captured from the running application (Chromium, 2026-10-13), after real booking and scenario actions. Nothing here is copied from the supplied report PDF. The same set is attached to the [v2.0.0 release](https://github.com/hadhiabdulla/secure-ticketing-observability/releases/tag/v2.0.0).
 
 ## Booking site (light)
